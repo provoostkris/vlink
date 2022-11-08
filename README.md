@@ -2,10 +2,10 @@
 Design files for a virtual link
 
 ### Files
-[Top level design file](/vhdl/vlink.vhd)
+[Top level design file](/vhdl/vlink/rtl/vlink.vhd)
 Top level creating the transmitter - channel - reciever chain
 
-### components
+### Components
 
 [VLINK](/vhdl/vlink)
 Virtual link
