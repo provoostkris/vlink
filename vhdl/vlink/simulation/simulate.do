@@ -20,21 +20,25 @@ echo "Compiling design"
     do $path_core/scripts/modelsim/core.do
   }
 
+  #related ip cores
   proc_compile_core ../../lfsr
+  proc_compile_core ../../prbs
+
+  #top level file
+  proc_compile_core ../../vlink
 
 
 echo "Compiling test bench"
 
-  vcom  -quiet -work work ../simulation/tb_lfsr.vhd
+  vcom  -quiet -work work ../simulation/tb_vlink.vhd
 
 echo "start simulation"
 
-  vsim -gui -novopt work.tb_lfsr
+  vsim -gui -novopt work.tb_vlink
 
 echo "adding waves"
 
-  add wave  -expand             -group bench       /tb_lfsr/*
-  add wave  -expand             -group dut         /tb_lfsr/i_lfsr_ser_cfg/*
+  add wave  -expand             -group bench       /tb_vlink/*
 
 echo "opening wave forms"
 

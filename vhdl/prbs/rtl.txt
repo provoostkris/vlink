@@ -1,0 +1,3 @@
+rtl/prbs_pck.vhd
+rtl/prbs_rx_ser.vhd
+rtl/prbs_tx_ser.vhd

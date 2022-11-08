@@ -1,25 +1,41 @@
+# Clearing the transcript window:
+.main clear
+
+echo "Setting up parameters"
+
+  set DEFAULT_LIB work
+
+echo "Clean up libraries"
+
+  if {[file exists $DEFAULT_LIB]} {vdel -all -lib $DEFAULT_LIB}
 
 echo "Compiling design"
-vlib work
 
-vcom  -quiet -work work ../rtl/prbs_pck.vhd
-vcom  -quiet -work work ../rtl/prbs_rx_ser.vhd
-vcom  -quiet -work work ../rtl/prbs_tx_ser.vhd
+  proc proc_ensure_lib { lib } { if ![file isdirectory $lib] { vlib $lib } }
+  proc_ensure_lib $DEFAULT_LIB
 
-echo "Compiling test bench" 
+  proc proc_compile_core { directory } {
+    echo " IP core compilation called for : $directory"
+    set path_core $directory
+    do $path_core/scripts/modelsim/core.do
+  }
 
-vcom  -quiet -work work ../simulation/tb_prbs.vhd
+  proc_compile_core ../../prbs
+
+
+echo "Compiling test bench"
+
+  vcom  -quiet -work work ../simulation/tb_prbs.vhd
 
 echo "start simulation"
 
-vsim -gui -novopt work.tb_prbs
+  vsim -gui -novopt work.tb_prbs
 
 echo "adding waves"
 
-add wave  -expand             -group bench       /tb_prbs/*
+  add wave  -expand             -group bench       /tb_prbs/*
 
 echo "opening wave forms"
 
-view wave
-
-run -all
+  view wave
+  run -all

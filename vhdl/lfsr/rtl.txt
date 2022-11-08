@@ -1,0 +1,2 @@
+rtl/pckg_lfsr.vhd
+rtl/lfsr_ser_cfg.vhd
