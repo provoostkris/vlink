@@ -40,6 +40,9 @@ signal rx_bit        : std_logic;                      -- rx serial input
 
 begin
 
+--! clock control 
+clk_en            <= '1';
+
 --! configuration control
 tx_prbs_set       <= '0';
 tx_prbs_type      <= "0000";

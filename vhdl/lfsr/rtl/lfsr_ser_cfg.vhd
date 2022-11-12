@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
---  logic feedbacks sift register serial stream
+--  logic feedbacks shift register serial stream
 --  rev. 1.0 : 2022 Provoost Kris
 ------------------------------------------------------------------------------
 

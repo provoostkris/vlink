@@ -15,3 +15,6 @@ Pseudo Random Bit Stream : generates and recieves a random bits stream and suppo
 
 [LFSR](/vhdl/lfsr)
 Logic feedback shift register : generates a random stream used for scrambling / descrambling purpose
+
+[SEI](/vhdl/sei)
+Systematic Error Insertion : systematically inserts a bit error in the incoming stream
