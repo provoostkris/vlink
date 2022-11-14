@@ -16,7 +16,6 @@ end entity vlink;
 
 architecture rtl of vlink is
 
-signal clk_en     : std_logic;                      -- clock enable
 
 
 --! PRBS TX signals
@@ -27,6 +26,14 @@ signal tx_err_insert : std_logic;                      -- manual error insert
 signal tx_err_set    : std_logic;                      -- set new error type
 signal tx_err_type   : std_logic_vector (3 downto 0);  -- error type
 signal tx_bit        : std_logic;                      -- tx serial output
+signal tx_clk_en     : std_logic;                      -- clock enable
+
+--! SEI signals
+signal ratio           : std_logic_vector(7 downto 0);
+signal stream_rx_dat   : std_logic;
+signal stream_rx_ena   : std_logic;
+signal stream_tx_dat   : std_logic;
+signal stream_tx_ena   : std_logic;
 
 --! PRBS RX signals
 signal rx_prbs_set   : std_logic;                      -- set new prbs / bit pattern
@@ -37,11 +44,12 @@ signal rx_syn_los    : std_logic;                      -- sync loss signaling ou
 signal rx_bit_err    : std_logic;                      -- biterror signaling output
 signal rx_clk_err    : std_logic;                      -- clockerror (bitslip) signaling output
 signal rx_bit        : std_logic;                      -- rx serial input
+signal rx_clk_en     : std_logic;                      -- clock enable
 
 begin
 
 --! clock control 
-clk_en            <= '1';
+tx_clk_en         <= '1';
 
 --! configuration control
 tx_prbs_set       <= '0';
@@ -50,6 +58,8 @@ tx_prbs_inv       <= '0';
 tx_err_insert     <= '0';
 tx_err_set        <= '0';
 tx_err_type       <= "0000";
+
+ratio             <= "11111111";
 
 rx_prbs_set       <= '0';
 rx_prbs_type      <= "0000";
@@ -65,7 +75,7 @@ i_prbs_tx_ser : entity work.prbs_tx_ser
   port map (
     clk        => clk             ,-- synchron clock
     reset      => rst             ,-- asynchron reset
-    clk_en     => clk_en          ,-- clock enable
+    clk_en     => tx_clk_en       ,-- clock enable
     prbs_set   => tx_prbs_set     ,-- set new prbs / bit pattern
     prbs_type  => tx_prbs_type    ,-- type of prbs / bit pattern
     prbs_inv   => tx_prbs_inv     ,-- invert prbs pattern
@@ -77,14 +87,30 @@ i_prbs_tx_ser : entity work.prbs_tx_ser
 
 --! channel
 
-rx_bit <= tx_bit;
+i_sei: entity work.sei
+	port map(
+      clk             => clk           ,
+      rst             => rst           ,
+      ratio           => ratio         ,
+      stream_rx_dat   => stream_rx_dat ,
+      stream_rx_ena   => stream_rx_ena ,
+      stream_tx_dat   => stream_tx_dat ,
+      stream_tx_ena   => stream_tx_ena
+	);
+
+-- core assignments
+stream_rx_dat <= tx_bit;
+stream_rx_ena <= tx_clk_en;
+
+rx_bit        <= stream_tx_dat;
+rx_clk_en     <= stream_tx_ena;
 
 --! reciever
 i_prbs_rx_ser : entity work.prbs_rx_ser
   port map (
     clk        => clk           , -- synchron clock
     reset      => rst           , -- asynchron reset
-    clk_en     => clk_en        , -- clock enable
+    clk_en     => rx_clk_en     , -- clock enable
     rx_bit     => rx_bit        , -- rx serial input
     prbs_set   => rx_prbs_set   , -- set new prbs / bit pattern
     prbs_type  => rx_prbs_type  , -- type of prbs / bit pattern

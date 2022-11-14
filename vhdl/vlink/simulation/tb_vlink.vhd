@@ -26,7 +26,7 @@ p_run: process
 begin
 
   report " START of test bench ";
-    wait for 2 ms;
+    wait for 100 us;
   report " END of test bench" severity failure;
 
 end process;

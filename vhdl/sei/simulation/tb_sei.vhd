@@ -18,7 +18,7 @@ constant c_clk_period : time := 10 ns;
 signal clk        : std_logic := '0';               -- synchron clock
 signal rst        : std_logic;                      -- asynchron reset
 
---! lfsr signals
+--! signals
 signal ratio           : std_logic_vector(7 downto 0);
 signal stream_rx_dat   : std_logic;
 signal stream_rx_ena   : std_logic;

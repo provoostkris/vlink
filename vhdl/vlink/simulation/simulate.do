@@ -23,6 +23,7 @@ echo "Compiling design"
   #related ip cores
   proc_compile_core ../../lfsr
   proc_compile_core ../../prbs
+  proc_compile_core ../../sei
 
   #top level file
   proc_compile_core ../../vlink
@@ -40,10 +41,34 @@ echo "adding waves"
 
   add wave  -expand             -group bench       /tb_vlink/*
   
-  add wave  -r                  -group DUT  -ports /tb_vlink/*
+  add wave  -expand -r           -group DUT  -ports /tb_vlink/*
   
 
 echo "opening wave forms"
 
   view wave
+  WaveRestoreCursors {{Cursor 1} {0 ps} 0}
+  quietly wave cursor active 0
+  configure wave -namecolwidth 300
+  configure wave -valuecolwidth 100
+  configure wave -justifyvalue left
+  configure wave -signalnamewidth 2
+  configure wave -snapdistance 10
+  configure wave -datasetprefix 0
+  configure wave -rowmargin 4
+  configure wave -childrowmargin 2
+  configure wave -gridoffset 0
+  configure wave -gridperiod 1
+  configure wave -griddelta 40
+  configure wave -timeline 0
+  configure wave -timelineunits ns
+  update
+  WaveRestoreZoom {0 ps} {100 ns}
+
+  
+  
+  
+  
+  
+  
   run -all
