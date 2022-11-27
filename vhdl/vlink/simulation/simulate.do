@@ -63,7 +63,7 @@ echo "opening wave forms"
   configure wave -timeline 0
   configure wave -timelineunits ns
   update
-  WaveRestoreZoom {0 ps} {100 ns}
+  WaveRestoreZoom {1 ns} {100 ns}
 
   
   
