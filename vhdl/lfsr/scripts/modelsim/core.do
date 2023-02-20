@@ -3,10 +3,10 @@ set CompilationStart [clock seconds]
 
 echo " RTL level compilation started"
 
-  set fp [open "$path_core/rtl.txt" r]
+  set fp [open "$1/rtl.txt" r]
   while { [gets $fp data] >= 0 } {
        puts $data
-       vcom -quiet -work work $path_core/$data
+       vcom -quiet -work work $1/$data
   }
   close $fp
 
