@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 simulation/
 !simulation/simulate.do
 !simulation/tb_psk.vhd
@@ -5,5 +6,9 @@ simulation/
 
 scripts/quartus/db
 scripts/quartus/incremental_db
+=======
+simulation/work
+simulation/vsim.wlf
+>>>>>>> Stashed changes
 
 scripts/vivado/output
