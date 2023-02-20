@@ -21,13 +21,15 @@ echo "Compiling design"
 
   proc proc_compile_core { directory } {
     echo " IP core compilation called for : $directory"
-    set path_core $directory
-    do $path_core/scripts/modelsim/core.do
+    do $directory/scripts/modelsim/core.do $directory
   }
 
   #related ip cores
-  proc_compile_core ../vhdl/lfsr
-  proc_compile_core ../vhdl/prbs
+  proc_compile_core ../../vhdl/fir
+  proc_compile_core ../../vhdl/lfsr
+  proc_compile_core ../../vhdl/prbs
+  proc_compile_core ../../vhdl/psk
+  proc_compile_core ../../vhdl/sei
 
   #top level file
-  proc_compile_core ../vhdl/vlink
+  proc_compile_core ../../vhdl/vlink
