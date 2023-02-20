@@ -1,3 +1,8 @@
+# ------------------------------------------------------------------------------
+# --  simulation script to check syntax with modelsim
+# --  rev. 1.0 : 2022 Provoost Kris
+# ------------------------------------------------------------------------------
+
 # Clearing the transcript window:
 .main clear
 
