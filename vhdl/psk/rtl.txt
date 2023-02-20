@@ -1,2 +1,4 @@
 rtl/pckg_bpsk.vhd
+rtl/pckg_bpsk_demod.vhd
 rtl/bpsk.vhd
+rtl/bpsk_demod.vhd
