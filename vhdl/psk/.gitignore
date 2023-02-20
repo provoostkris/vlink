@@ -1,5 +1,6 @@
-simulation/
-!simulation/simulate.do
+simulation/work
+simulation/*.wlf
+simulation/*.vstf
 
 scripts/quartus/db
 scripts/quartus/incremental_db
