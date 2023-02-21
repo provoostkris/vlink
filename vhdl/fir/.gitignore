@@ -1,4 +1,4 @@
-simulation/
+simulation/*
 !simulation/simulate.do
 !simulation/tb_fir.vhd
 !simulation/wave.do
