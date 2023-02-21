@@ -5,10 +5,11 @@ echo "Setting up parameters"
 
   set DEFAULT_LIB work
 
-echo "Clean up libraries"
+echo "Clean up old workspace"
 
-  #if {[file isdirectory $DEFAULT_LIB]} {vdel -all lib $DEFAULT_LIB}
   if {[file isdirectory $DEFAULT_LIB]} {file delete -force $DEFAULT_LIB}
+  
+  #if {[file exists sim_results.txt]} {file delete -force sim_results.txt}
 
 echo "Compiling design"
 
@@ -28,13 +29,15 @@ echo "Compiling test bench"
   vcom  -quiet -work work ../simulation/tb_bpsk.vhd
 
 echo "start simulation"
-
-  vsim -gui -novopt work.tb_bpsk
+  
+  vsim  -gui  \
+        -novopt \
+        work.tb_bpsk
 
 echo "adding waves"
 
   add wave  -expand             -group bench       /tb_bpsk/*
-  add wave  -expand             -group bpsk_mod    /tb_bpsk/i_bpsk/*
+  add wave  -expand             -group bpsk_mod    /tb_bpsk/i_bpsk_mod/*
   add wave  -expand             -group bpsk_demod  /tb_bpsk/i_bpsk_demod/*
 
 echo "opening wave forms"

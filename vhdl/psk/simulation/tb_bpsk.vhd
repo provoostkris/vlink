@@ -125,7 +125,7 @@ begin
 end process;
 
 --! modulator
-i_bpsk: entity work.bpsk
+i_bpsk_mod: entity work.bpsk_mod
 	port map(
       clk             => clk           ,
       rst             => rst           ,
