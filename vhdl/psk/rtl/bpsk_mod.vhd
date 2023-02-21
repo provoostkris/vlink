@@ -8,9 +8,9 @@ use ieee.std_logic_1164.all;
 USE ieee.numeric_std.all;
 
 library work;
-use work.pckg_bpsk.all;
+use work.pckg_bpsk_mod.all;
 
-entity bpsk is
+entity bpsk_mod is
 	generic(
       g_resolution    :  in positive range 4 to 15 := 8
 	  );
@@ -24,9 +24,9 @@ entity bpsk is
       stream_tx_dat   :  out std_logic_vector(2*g_resolution-1 downto 0);
       stream_tx_ena   :  out std_logic
 	);
-end entity bpsk;
+end entity bpsk_mod;
 
-architecture rtl of bpsk is
+architecture rtl of bpsk_mod is
 
   --! constants
   
