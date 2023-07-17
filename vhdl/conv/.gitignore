@@ -1,0 +1,8 @@
+simulation/work
+simulation/vsim.wlf
+
+scripts/quartus/db
+scripts/quartus/incremental_db
+scripts/quartus/*.qws
+
+scripts/vivado/output
