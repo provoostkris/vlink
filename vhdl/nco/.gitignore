@@ -1,0 +1,9 @@
+simulation/*
+!simulation/simulate.do
+!simulation/tb_fir.vhd
+!simulation/wave.do
+
+scripts/quartus/db
+scripts/quartus/incremental_db
+
+scripts/vivado/output
