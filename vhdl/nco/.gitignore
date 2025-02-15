@@ -1,6 +1,6 @@
 simulation/*
 !simulation/simulate.do
-!simulation/tb_fir.vhd
+!simulation/tb_nco.vhd
 !simulation/wave.do
 
 scripts/quartus/db
