@@ -18,8 +18,6 @@ entity nco is
         rst     : in std_logic;
         freq_a  : in std_logic_vector(g_lut-1 downto 0);
         freq_b  : in std_logic_vector(g_lut-1 downto 0);
-        nco_a   : out std_logic_vector(g_res-1 downto 0);       --
-        nco_b   : out std_logic_vector(g_res-1 downto 0);
         nco_m   : out std_logic_vector(g_res-1 downto 0)
     );
 end nco;
@@ -45,31 +43,33 @@ architecture behavioral of nco is
 
     constant c_rom : mem_array := init_rom;
 
-    signal phase_a   : unsigned(g_lut-1 downto 0);
-    signal phase_b   : unsigned(g_lut-1 downto 0);
-    signal res_a     : signed(g_res-1 downto 0);
-    signal res_b     : signed(g_res-1 downto 0);
+    signal res_a     : std_logic_vector(g_res-1 downto 0);
+    signal res_b     : std_logic_vector(g_res-1 downto 0);
     signal mult      : signed(2*g_res-1 downto 0);
 
 begin
 
-    process(clk, rst)
-    begin
-        if rst = '1' then
-            phase_a <= (others => '0');
-            phase_b <= (others => '0');
-        elsif rising_edge(clk) then
-            phase_a <= phase_a + unsigned(freq_a);
-            phase_b <= phase_b + unsigned(freq_b);
-        end if;
-    end process;
 
-    res_a <= to_signed(c_rom(to_integer(phase_a)),g_res);
-    res_b <= to_signed(c_rom(to_integer(phase_b)),g_res);
-    mult  <= res_a * res_b;
-
-    nco_a <= std_logic_vector(res_a);
-    nco_b <= std_logic_vector(res_b);
-    nco_m <= std_logic_vector(mult(2*g_res-2 downto g_res-1));
+i_nco_a: entity work.nco_lut
+  generic map(g_lut  ,  g_res  )
+	port map(
+      clk             => clk  ,
+      rst             => rst  ,
+      phase           => freq_a ,
+      nco             => res_a
+	);
+  
+i_nco_b: entity work.nco_dsp
+  generic map(g_lut  ,  g_res  )
+	port map(
+      clk             => clk  ,
+      rst             => rst  ,
+      phase           => freq_b ,
+      nco             => res_b
+	);
+  
+    
+    mult    <= signed(res_a) * signed(res_b);
+    nco_m   <= std_logic_vector(mult(2*g_res-2 downto g_res-1));
 
 end behavioral;

@@ -1,2 +1,4 @@
 rtl/pckg_nco.vhd
+rtl/nco_lut.vhd
+rtl/nco_dsp.vhd
 rtl/nco.vhd
