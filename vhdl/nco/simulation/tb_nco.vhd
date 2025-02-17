@@ -72,17 +72,20 @@ begin
    freq_b   <= std_logic_vector(to_unsigned(1,c_lut));
     proc_reset(30);
     proc_wait_clk(2**c_lut);
+    proc_wait_clk(2**c_lut);
 
   report " RUN TST.02 ";
     freq_a   <= std_logic_vector(to_unsigned(2,c_lut));
-    freq_b   <= std_logic_vector(to_unsigned(1,c_lut));
+    freq_b   <= std_logic_vector(to_unsigned(2,c_lut));
     proc_reset(30);
+    proc_wait_clk(2**c_lut);
     proc_wait_clk(2**c_lut);
 
   report " RUN TST.03 ";
     freq_a   <= std_logic_vector(to_unsigned(5,c_lut));
-    freq_b   <= std_logic_vector(to_unsigned(1,c_lut));
+    freq_b   <= std_logic_vector(to_unsigned(5,c_lut));
     proc_reset(30);
+    proc_wait_clk(2**c_lut);
     proc_wait_clk(2**c_lut);
 
   report " END of test bench" severity failure;
@@ -99,8 +102,6 @@ i_nco: entity work.nco
       rst             => rst  ,
       freq_a          => freq_a ,
       freq_b          => freq_b ,
-      nco_a           => open ,
-      nco_b           => open ,
       nco_m           => open
 	);
 
