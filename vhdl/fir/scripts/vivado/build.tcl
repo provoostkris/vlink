@@ -6,7 +6,7 @@ puts $loc_folder
 cd $loc_folder
 
 # Create the project and directory structure
-create_project -force sei ./output -part xc7z010clg400-1
+create_project -force fir ./output -part xc7z010clg400-1
 
 set_property target_language VHDL [current_project]
 set_property simulator_language VHDL [current_project]
