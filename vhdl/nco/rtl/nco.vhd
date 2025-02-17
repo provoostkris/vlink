@@ -50,7 +50,7 @@ architecture behavioral of nco is
 begin
 
 
-i_nco_a: entity work.nco_lut
+i_nco_a: entity work.nco_real
   generic map(g_lut  ,  g_res  )
 	port map(
       clk             => clk  ,
@@ -58,8 +58,8 @@ i_nco_a: entity work.nco_lut
       phase           => freq_a ,
       nco             => res_a
 	);
-  
-i_nco_b: entity work.nco_dsp
+
+i_nco_b: entity work.nco_flt32
   generic map(g_lut  ,  g_res  )
 	port map(
       clk             => clk  ,
@@ -67,8 +67,8 @@ i_nco_b: entity work.nco_dsp
       phase           => freq_b ,
       nco             => res_b
 	);
-  
-    
+
+
     mult    <= signed(res_a) * signed(res_b);
     nco_m   <= std_logic_vector(mult(2*g_res-2 downto g_res-1));
 

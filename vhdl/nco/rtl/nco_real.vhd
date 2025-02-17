@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
---  simple nco_dsp design
+--  simple nco_real design
 --  rev. 1.0 : 2025 Provoost Kris
 ------------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
 
-entity nco_dsp is
+entity nco_real is
   generic (
     g_lut  : natural range 8  to 16 := 10;
     g_res  : natural range 8  to 16 := 14
@@ -21,16 +21,15 @@ entity nco_dsp is
     phase  : in std_logic_vector(g_lut-1 downto 0);
     nco    : out std_logic_vector(g_res-1 downto 0)
   );
-end nco_dsp;
+end nco_real;
 
-architecture rtl of nco_dsp is
+architecture rtl of nco_real is
 
   -- scale factor one less for signed
   constant c_scale    : real := 2.0**(g_res-1)-1.0;
 
   signal accum      : signed(g_lut-1 downto 0);
-  signal phase_int  : integer;
-  signal phase_real : real;
+  signal phase_val  : real;
   signal angle      : real;
   signal sine_val   : real;
 
@@ -50,22 +49,21 @@ begin
   process(clk, rst)
   begin
     if rst = '1' then
-      phase_int   <= 0;
-      phase_real  <= 0.0;
+      phase_val   <= 0.0;
       angle       <= 0.0;
       sine_val    <= 0.0;
       nco         <= (others => '0');
     elsif rising_edge(clk) then
-      phase_int   <= to_integer(accum);
-      phase_real  <= real(phase_int) * 2.0 * MATH_PI;
-      angle       <= phase_real / 2.0**g_lut ;
+      phase_val   <= real(to_integer(accum)) * 2.0 * MATH_PI;
+      angle       <= phase_val / 2.0**g_lut ;
 
       -- Taylor series expansion for sin(x) = x - x^3/3! + x^5/5! - x^7/7! + ...
       sine_val    <=  angle
-                      - (angle**3 / 6.0)
-                      + (angle**5 / 120.0)
-                      - (angle**7 / 5040.0)
-                      + (angle**9 / 362880.0)
+                      - (angle**3  / 6.0)
+                      + (angle**5  / 120.0)
+                      - (angle**7  / 5040.0)
+                      + (angle**9  / 362880.0)
+                      - (angle**11 / 39916800.0)
                       ;
       nco         <= std_logic_vector(to_signed(integer(sine_val * c_scale ), g_res));
     end if;

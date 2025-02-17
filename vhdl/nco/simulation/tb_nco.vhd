@@ -75,8 +75,8 @@ begin
     proc_wait_clk(2**c_lut);
 
   report " RUN TST.02 ";
-    freq_a   <= std_logic_vector(to_unsigned(2,c_lut));
-    freq_b   <= std_logic_vector(to_unsigned(2,c_lut));
+    freq_a   <= std_logic_vector(to_unsigned(33,c_lut));
+    freq_b   <= std_logic_vector(to_unsigned(33,c_lut));
     proc_reset(30);
     proc_wait_clk(2**c_lut);
     proc_wait_clk(2**c_lut);

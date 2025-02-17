@@ -6,7 +6,7 @@ echo " RTL level compilation started"
   set fp [open "$1/rtl.txt" r]
   while { [gets $fp data] >= 0 } {
        puts $data
-       vcom -quiet -work work $1/$data
+       vcom -quiet -2008 -work work $1/$data
   }
   close $fp
 
