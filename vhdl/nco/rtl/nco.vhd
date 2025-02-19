@@ -10,6 +10,7 @@ use ieee.math_real.all;
 
 entity nco is
     generic (
+        g_real : boolean                := false ;
         g_lut  : natural range 8  to 16 := 10;
         g_res  : natural range 8  to 16 := 14
     );
@@ -49,15 +50,28 @@ architecture behavioral of nco is
 
 begin
 
+gen_real: if g_real = true generate
+  i_nco_a: entity work.nco_real
+    generic map(g_lut  ,  g_res  )
+    port map(
+        clk             => clk  ,
+        rst             => rst  ,
+        phase           => freq_a ,
+        nco             => res_a
+    );
+end generate gen_real;
 
-i_nco_a: entity work.nco_real
-  generic map(g_lut  ,  g_res  )
-	port map(
-      clk             => clk  ,
-      rst             => rst  ,
-      phase           => freq_a ,
-      nco             => res_a
-	);
+gen_lut: if g_real = false generate
+  i_nco_a: entity work.nco_lut
+    generic map(g_lut  ,  g_res  )
+    port map(
+        clk             => clk  ,
+        rst             => rst  ,
+        phase           => freq_a ,
+        nco             => res_a
+    );
+end generate gen_lut;
+
 
 i_nco_b: entity work.nco_flt32
   generic map(g_lut  ,  g_res  )

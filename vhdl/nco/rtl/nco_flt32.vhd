@@ -9,7 +9,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
-use IEEE.FLOAT_PKG.ALL;
+use ieee.float_pkg.all;
+
+--library ieee_proposed;
+--use ieee_proposed.float_pkg.all;
 
 entity nco_flt32 is
   generic (
@@ -30,6 +33,7 @@ architecture rtl of nco_flt32 is
   constant c_scale    : float32 := to_float(2.0**(g_res-1)-1.0);
 
   signal accum      : signed(g_lut-1 downto 0);
+  signal accumf     : float32;
   signal phase_val  : float32;
   signal angle      : float32;
   signal sine_val   : float32;
@@ -46,6 +50,9 @@ begin
       end if;
   end process;
 
+  -- convert to float
+  accumf <= to_float(accum);
+
   -- mulitpliers
   process(clk, rst)
   begin
@@ -55,7 +62,7 @@ begin
       sine_val    <= to_float(0);
       nco         <= (others => '0');
     elsif rising_edge(clk) then
-      phase_val   <= to_float(to_integer(accum)) * to_float(2.0) * to_float(MATH_PI);
+      phase_val   <= accumf * to_float(2.0*MATH_PI);
       angle       <= phase_val / to_float(2.0**g_lut) ;
 
       -- Taylor series expansion for sin(x) = x - x^3/3! + x^5/5! - x^7/7! + - x^9/9! + ...

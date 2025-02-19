@@ -62,8 +62,8 @@ begin
                       - (angle**3  / 6.0)
                       + (angle**5  / 120.0)
                       - (angle**7  / 5040.0)
-                      + (angle**9  / 362880.0)
-                      - (angle**11 / 39916800.0)
+                    --  + (angle**9  / 362880.0)
+                    --  - (angle**11 / 39916800.0)
                       ;
       nco         <= std_logic_vector(to_signed(integer(sine_val * c_scale ), g_res));
     end if;
