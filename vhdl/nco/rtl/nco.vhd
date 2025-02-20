@@ -10,9 +10,9 @@ use ieee.math_real.all;
 
 entity nco is
     generic (
-        g_real : boolean                := false ;
-        g_lut  : natural range 8  to 16 := 10;
-        g_res  : natural range 8  to 16 := 14
+        g_style : natural range 0  to  2 :=  2;
+        g_lut   : natural range 8  to 16 := 10;
+        g_res   : natural range 8  to 16 := 14
     );
     port(
         clk     : in std_logic;
@@ -25,32 +25,13 @@ end nco;
 
 architecture behavioral of nco is
 
-    type mem_array is array(0 to (2**g_lut)-1) of integer ;
-
-    -- function computes contents of cosine lookup ROM
-    function init_rom return mem_array is
-      constant Ni       : integer := 2**g_lut;
-      constant Nr       : real := real(Ni);
-      variable y, x     : real;
-      variable v_mem    : mem_array;
-    begin
-      for k in 0 to Ni-1 loop
-        x        := real(k) / Nr;                     -- create fraction over the loop
-        y        := sin(2.0 * MATH_PI * x);           -- cosine wave
-        v_mem(k) := integer(real(2**(g_res-1)-1)*y);  -- return integer
-      end loop;
-      return v_mem;
-    end function init_rom;
-
-    constant c_rom : mem_array := init_rom;
-
     signal res_a     : std_logic_vector(g_res-1 downto 0);
     signal res_b     : std_logic_vector(g_res-1 downto 0);
     signal mult      : signed(2*g_res-1 downto 0);
 
 begin
 
-gen_real: if g_real = true generate
+gen_real: if g_style = 0 generate
   i_nco_a: entity work.nco_real
     generic map(g_lut  ,  g_res  )
     port map(
@@ -59,10 +40,20 @@ gen_real: if g_real = true generate
         phase           => freq_a ,
         nco             => res_a
     );
+
+  i_nco_b: entity work.nco_real
+  generic map(g_lut  ,  g_res  )
+  port map(
+      clk             => clk  ,
+      rst             => rst  ,
+      phase           => freq_b ,
+      nco             => res_b
+  );
 end generate gen_real;
 
-gen_lut: if g_real = false generate
-  i_nco_a: entity work.nco_lut
+
+gen_flt32: if g_style = 1 generate
+  i_nco_a: entity work.nco_flt32
     generic map(g_lut  ,  g_res  )
     port map(
         clk             => clk  ,
@@ -70,18 +61,36 @@ gen_lut: if g_real = false generate
         phase           => freq_a ,
         nco             => res_a
     );
-end generate gen_lut;
 
-
-i_nco_b: entity work.nco_flt32
+  i_nco_b: entity work.nco_flt32
   generic map(g_lut  ,  g_res  )
-	port map(
+  port map(
       clk             => clk  ,
       rst             => rst  ,
       phase           => freq_b ,
       nco             => res_b
-	);
+  );
+end generate gen_flt32;
 
+gen_lut: if g_style = 2 generate
+  i_nco_a: entity work.nco_lut
+  generic map(g_lut  ,  g_res  )
+  port map(
+      clk             => clk  ,
+      rst             => rst  ,
+      phase           => freq_a ,
+      nco             => res_a
+  );
+
+  i_nco_b: entity work.nco_lut
+  generic map(g_lut  ,  g_res  )
+  port map(
+    clk             => clk  ,
+    rst             => rst  ,
+    phase           => freq_b ,
+    nco             => res_b
+  );
+end generate gen_lut;
 
     mult    <= signed(res_a) * signed(res_b);
     nco_m   <= std_logic_vector(mult(2*g_res-2 downto g_res-1));

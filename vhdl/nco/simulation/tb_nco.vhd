@@ -94,7 +94,7 @@ end process;
 
 i_nco: entity work.nco
   generic map(
-    g_real            => true  ,
+    g_style           => 2      ,
     g_lut             => c_lut  ,
     g_res             => c_res
   )

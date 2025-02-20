@@ -67,9 +67,9 @@ begin
 
       -- Taylor series expansion for sin(x) = x - x^3/3! + x^5/5! - x^7/7! + - x^9/9! + ...
       sine_val    <=  angle
-                      - (to_real(angle)**3  / to_float(6.0))
-                      + (to_real(angle)**5  / to_float(120.0))
-                      - (to_real(angle)**7  / to_float(5040.0))
+                      - (angle * angle * angle  / to_float(6.0))
+                      + (angle * angle * angle * angle * angle  / to_float(120.0))
+                      - (angle * angle * angle * angle * angle * angle * angle  / to_float(5040.0))
                   --    + (to_real(angle)**9  / to_float(62880.0))
                   --    - (to_real(angle)**11 / to_float(39916800.0))
                       ;
