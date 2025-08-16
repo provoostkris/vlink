@@ -1,6 +1,7 @@
 # 🚀 CRC-16 CCSDS Implementation
 
-This project provides an implementation of the **CRC-16 algorithm** as specified by the *Consultative Committee for Space Data Systems (CCSDS)*. It is used for error detection in space communication protocols, particularly in Telecommand Transfer Frames.
+This project provides an implementation of the **CRC-16 algorithm** as specified by the *Consultative Committee for Space Data Systems (CCSDS)*. 
+It is used for error detection in space communication protocols, particularly in Telecommand Transfer Frames.
 
 ---
 
@@ -42,7 +43,7 @@ This project provides an implementation of the **CRC-16 algorithm** as specified
 
 | Input (Hex) | Expected CRC (Hex) |
 |-------------|--------------------|
-| `06000cf0 00040055 8873c900 000521`  | `0x2189`|
+| `06000cf0 00040055 8873c900 000521`  | `0x75FB`|
 
 ---
 

@@ -31,20 +31,28 @@ begin
       variable crc  : std_logic_vector(15 downto 0);
     begin
         if rising_edge(clk) then
-            if reset = '1' or frame_start = '1' then
+            if reset = '1' then
                 crc      := (others => '1'); -- Reset CRC
                 crc_reg  <= (others => '1'); -- Reset CRC
-            elsif data_valid = '1' then
-                crc := crc16_ccsds_byte(crc,data_in);
-            end if;
-
-            crc_reg <= std_logic_vector(crc);
-
-            if reset = '1' or frame_start = '1' then
                 crc_done <= '0';
-            elsif frame_end = '1' then
-                crc_done <= '1';
+            else
+              -- compute CRC
+              if frame_start = '1' then
+                  crc      := (others => '1'); -- Reset CRC
+              elsif data_valid = '1' then
+                  crc := crc16_ccsds_byte(crc,data_in);
+              end if;
+              -- signal done condition
+              if frame_start = '1' then
+                  crc_done <= '0';
+              elsif frame_end = '1' then
+                  crc_done <= '1';
+              end if;
+              -- register output
+              crc_reg <= std_logic_vector(crc);
             end if;
+
+
         end if;
     end process;
 

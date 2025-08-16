@@ -1,6 +1,7 @@
 simulation/work
 simulation/vsim.wlf
 
+scripts/quartus/output_files
 scripts/quartus/db
 scripts/quartus/incremental_db
 scripts/quartus/*.qws
