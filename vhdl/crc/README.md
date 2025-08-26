@@ -52,5 +52,5 @@ It is used for error detection in space communication protocols, particularly in
 Available in:
 
 - ✅ VHDL (`ccsds_crc16_frame.vhd`)
-- ❌ Python (`ccsds_crc16_frame.py`)
+- ✅ Python (`ccsds_crc16_frame.py`)
 
