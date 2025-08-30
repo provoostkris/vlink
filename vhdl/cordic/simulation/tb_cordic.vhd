@@ -1,8 +1,10 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
-use std.textio.all;
+library ieee;
+use     ieee.std_logic_1164.all;
+use     ieee.numeric_std.all;
+use     ieee.math_real.all;
 
+library std;
+use     std.textio.all;
 
 entity tb_cordic is
 end tb_cordic;
@@ -15,8 +17,8 @@ architecture Behavioral of tb_cordic is
     signal angle   : SIGNED(15 downto 0);
     signal sine    : SIGNED(15 downto 0);
     signal cosine  : SIGNED(15 downto 0);
-    
-    signal degrees     : integer range -360 to 360;    
+
+    signal degrees     : integer range -360 to 360;
     signal real_deg    : real;
     signal real_rad    : real;
     signal real_sin    : real;
@@ -27,7 +29,7 @@ architecture Behavioral of tb_cordic is
     constant c_sgn_bits   : integer := 1;
     constant c_dec_bits   : integer := 1;
     constant c_frc_bits   : integer := 14;
-    
+
 
   -- Converts degrees to fixed-point radians (16-bit signed)
   function deg_to_rad_fixed(angle_deg : integer) return signed is
@@ -37,7 +39,7 @@ architecture Behavioral of tb_cordic is
       result := integer((real(angle_deg) * SCALE));
       return to_signed(result, 16);
   end function;
-  
+
   procedure log_test_id(test_id : in string) is
       variable L : line;
   begin
@@ -58,13 +60,28 @@ architecture Behavioral of tb_cordic is
       writeline(output, L);
   end procedure;
 
+
+  procedure log_values(a,b,c,d,e : in real) is
+        variable L : line;
+    begin
+        write(L, a, right, 0, 5);  -- Format with 5 digits after decimal
+        write(L, string'(" , "));
+        write(L, b, right, 0, 5);  -- Format with 5 digits after decimal
+        write(L, string'(" , "));
+        write(L, c, right, 0, 5);  -- Format with 5 digits after decimal
+        write(L, string'(" , "));
+        write(L, d, right, 0, 5);  -- Format with 5 digits after decimal
+        write(L, string'(" , "));
+        write(L, e, right, 0, 5);  -- Format with 5 digits after decimal
+        writeline(output, L);
+    end procedure;
 begin
 
 real_deg <= real(degrees);
 real_rad <= real(to_integer(angle)  ) / 2.0**c_frc_bits;
 real_sin <= real(to_integer(sine)  )  / 2.0**c_frc_bits;
 real_cos <= real(to_integer(cosine))  / 2.0**c_frc_bits;
-  
+
     -- Instantiate the CORDIC module
     uut: entity work.cordic
         Port map (
@@ -89,9 +106,6 @@ real_cos <= real(to_integer(cosine))  / 2.0**c_frc_bits;
     -- Stimulus process
     stim_proc: process
     begin
-
-      
-        
         log_test_id("TC_001 : Test all angles");
         log_test_step("Reset", "pull reset line", now);
         wait until rising_edge(clk);
@@ -111,6 +125,24 @@ real_cos <= real(to_integer(cosine))  / 2.0**c_frc_bits;
         wait until rising_edge(clk);
         report "Simulation finished." severity failure;
         wait;
+    end process;
+
+    -- Verificqtion process
+    verif_proc: process
+    begin
+        wait until falling_edge(reset);
+        for i in -90 to 90 loop
+          wait until real_sin'event;
+          log_values(   real(i),
+                        sin(real(i) * math_pi / 180.0),
+                        cos(real(i) * math_pi / 180.0),
+                        real_sin,
+                        real_cos
+                    );
+        end loop;
+
+        wait;
+
     end process;
 
 end Behavioral;
