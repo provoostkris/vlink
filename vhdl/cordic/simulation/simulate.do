@@ -1,6 +1,8 @@
 # Clearing the transcript window:
 .main clear
 
+onerror resume
+
 echo "Setting up parameters"
 
   set DEFAULT_LIB work
