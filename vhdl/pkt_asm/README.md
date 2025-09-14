@@ -7,17 +7,15 @@ This repository contains a fully parameterized VHDL-2008 module for assembling p
 - **Scalable Type Field**: Configurable width (`G_TYPE_WIDTH`) and dynamic value per frame.
 - **Optional Length Field**: Insert a 2-byte payload length if `insert_length = '1'`.
 - **Buffered Payload**: Accepts streaming input and buffers until `tlast`.
-- **Fixed Trailer Field**: Configurable width (`G_TRAILER_WIDTH`) and value per frame.
+- **Scalable Trailer Field**: Configurable width (`G_TRAILER_WIDTH`) and value per frame.
 - **AXI-Stream Compatible**: 8-bit input/output with `tvalid`, `tready`, and `tlast`.
 
 ## 📦 Packet Format
 
 Depending on the `insert_length` signal, the packet structure is:
 
-### With Length (`insert_length = '1'`)
 [type (N bytes)] [length (2 bytes)] [payload (N bytes)] [trailer (M bytes)]
 
-### Without Length (`insert_length = '0'`)
 [type (N bytes)] [payload (N bytes)] [trailer (M bytes)]
 
 
