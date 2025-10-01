@@ -32,12 +32,9 @@
 | **DAC**   | Digital to Analog Convertor |
 | **SEI**   | Systematic Error Insertion to simulate data corruption |
 
-
 ## 🧪 Test Benches
 
 Each module includes a dedicated test bench to verify functionality and simulate realistic behavior. These are great for learning, debugging, or validating your own modifications.
-
-
 
 ## 📌 Goals
 - Simulate realistic digital communication links
@@ -53,8 +50,6 @@ Each module includes a dedicated test bench to verify functionality and simulate
 
 VLink was created to offer a modular and extensible way to explore digital communication systems in VHDL. Whether you're a student, researcher, or engineer, it gives you the basic building blocks to experiment and learn.
 
----
-
 ## 💖 Support This Project
 
 If you find VLink useful and would like to support its development, consider making a donation:
@@ -63,5 +58,3 @@ If you find VLink useful and would like to support its development, consider mak
 - [❤️ GitHub Sponsors](https://github.com/sponsors/provoostkris)
 
 Your support helps keep the project alive and evolving. Thank you!
-
----
