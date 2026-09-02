@@ -25,22 +25,23 @@ echo "Compiling design"
 
 echo "Compiling test bench"
 
-  vcom  -quiet -work work ../simulation/tb_crc16_frame.vhd
+  set bench tb_crc16_frame_pipe
+  vcom   -work work ../simulation/$bench.vhd
 
 echo "start simulation"
 
-  vsim -gui -novopt work.tb_crc16_frame
+  vsim -gui -novopt work.$bench
 
 echo "adding waves"
 
-  add wave  -expand             -group bench       /tb_crc16_frame/*
-  add wave  -expand             -group dut         /tb_crc16_frame/uut/*
+  add wave  -expand             -group bench       /$bench/*
+  add wave  -expand             -group dut         /$bench/uut/*
 
 echo "opening wave forms"
 
   view wave
   run -all
-  
+
   configure wave -namecolwidth  280
   configure wave -valuecolwidth 120
   configure wave -justifyvalue right
