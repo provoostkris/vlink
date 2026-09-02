@@ -17,7 +17,7 @@ package pckg_ccsds_crc is
 end pckg_ccsds_crc;
 
 package body pckg_ccsds_crc is
- 
+
   --  Description : VHDL implementatie van het CCSDS CRC-16 algoritme.
   --                Gebaseerd op de specificaties van CCSDS 101.0-B-6.
   --
@@ -32,18 +32,19 @@ package body pckg_ccsds_crc is
     crc_in  : std_logic_vector(15 downto 0);
     data_in : std_logic_vector(7 downto 0)
   ) return std_logic_vector is
-      constant POLY : std_logic_vector(15 downto 0) := x"1021";
-      variable crc  : std_logic_vector(15 downto 0) := crc_in;
-      variable din  : std_logic_vector(7 downto 0) := data_in;
-  begin
-      for i in 0 to 7 loop
-          if (crc(15) xor din(7 - i)) = '1' then
-              crc := (crc(14 downto 0) & '0') xor POLY;
-          else
-              crc := crc(14 downto 0) & '0';
-          end if;
-      end loop;
-      return crc;
-  end function;
-  
+    constant c_poly : std_logic_vector(15 downto 0) := x"1021";
+    variable v_crc  : std_logic_vector(15 downto 0) := crc_in;
+    variable v_din  : std_logic_vector(7 downto 0) := data_in;
+begin
+    for i in 0 to 7 loop
+        if (v_crc(15) xor v_din(7 - i)) = '1' then
+            v_crc := (v_crc(14 downto 0) & '0') xor c_poly;
+        else
+            v_crc := v_crc(14 downto 0) & '0';
+        end if;
+    end loop;
+
+    return v_crc;
+end function;
+
 end pckg_ccsds_crc;

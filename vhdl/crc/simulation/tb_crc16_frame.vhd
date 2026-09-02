@@ -11,11 +11,12 @@ architecture Behavioral of tb_crc16_frame is
 
 
     -- Constants
-    signal c_new_frame :  string(1 to 2) := "--";
+    constant c_new_frame : string(1 to 2) := "--";
 
     -- Signals
     signal clk        : std_logic := '0';
-    signal reset      : std_logic := '0';
+    signal a_rst      : std_logic := '0';
+    signal s_rst      : std_logic := '0';
     signal data_in    : std_logic_vector(7 downto 0);
     signal data_valid : std_logic := '0';
     signal frame_start: std_logic := '0';
@@ -67,7 +68,8 @@ begin
     uut: entity work.ccsds_crc16_frame
         port map (
             clk        => clk,
-            reset      => reset,
+            a_rst      => a_rst,
+            s_rst      => s_rst,
             data_in    => data_in,
             data_valid => data_valid,
             frame_start=> frame_start,
@@ -87,15 +89,17 @@ begin
       variable token       : string(1 to 2);
 
       begin
-          reset <= '1';
+          a_rst <= '1';
+          s_rst <= '1';
           wait for 20 ns;
-          reset <= '0';
+          a_rst <= '0';
+          s_rst <= '0';
 
           while not endfile(input_file) loop
               readline(input_file, line_in);
               read(line_in, token);
               assert false report " read from file : " & token severity note;
-              
+
               if token = c_new_frame then
 
                   assert false report " end of frame detected" severity note;
@@ -108,7 +112,7 @@ begin
                   assert false report " wait for CRC " severity note;
                   wait until crc_ready = '1' for 100 ns;
                   if crc_ready = '1' then
-                  
+
                     -- Write CRC with timestamp
                     frame_count := frame_count + 1;
                     timestamp := now;
@@ -126,12 +130,12 @@ begin
                     frame_start <= '1';
                     wait until rising_edge(clk);
                     frame_start <= '0';
-                    
+
                   else
-                  
+
                     write(line_out, string'("Frame processed , however CRC was to late"));
                     writeline(output_file, line_out);
-                    
+
                   end if;
 
               else
