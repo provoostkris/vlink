@@ -7,7 +7,6 @@ echo "Setting up parameters"
 
 echo "Clean up libraries"
 
-  #if {[file isdirectory $DEFAULT_LIB]} {vdel -all lib $DEFAULT_LIB}
   if {[file isdirectory $DEFAULT_LIB]} {file delete -force $DEFAULT_LIB}
 
 echo "Compiling design"
@@ -39,3 +38,20 @@ echo "opening wave forms"
 
   view wave
   run -all
+
+  configure wave -namecolwidth  280
+  configure wave -valuecolwidth 120
+  configure wave -justifyvalue right
+  configure wave -signalnamewidth 1
+  configure wave -snapdistance 10
+  configure wave -datasetprefix 0
+  configure wave -rowmargin 4
+  configure wave -childrowmargin 2
+  configure wave -gridoffset 0
+  configure wave -gridperiod 1
+  configure wave -griddelta 40
+  configure wave -timeline 1
+  configure wave -timelineunits us
+  update
+
+  wave zoom full
