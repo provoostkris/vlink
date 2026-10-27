@@ -18,8 +18,8 @@ use ieee.numeric_std.all;
 --! @tparam DEPTH Number of FIFO entries (must be power of two).
 entity axis_dual_port_fifo is
   generic (
-    DATA_WIDTH : integer := 32;  --! @tparam DATA_WIDTH Data width in bits (>0).
-    DEPTH      : integer := 64   --! @tparam DEPTH FIFO depth (power of two).
+    DATA_WIDTH : integer := 2**4;   --! @tparam DATA_WIDTH Data width in bits (>0).
+    DEPTH      : integer := 2**10   --! @tparam DEPTH FIFO depth (power of two).
   );
   port (
     --! @name AXIS write interface (slave)
