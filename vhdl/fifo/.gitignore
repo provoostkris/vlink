@@ -4,6 +4,13 @@ simulation/vsim.wlf
 scripts/quartus/output_files
 scripts/quartus/db
 scripts/quartus/incremental_db
+scripts/quartus/*.qsf
+scripts/quartus/*.qpf
 scripts/quartus/*.qws
+scripts/quartus/*.qdf
+scripts/quartus/*dump.txt
+scripts/quartus/*.done
 
 scripts/vivado/output
+scripts/vivado/*.jou
+scripts/vivado/*.log

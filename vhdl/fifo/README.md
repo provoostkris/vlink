@@ -14,4 +14,5 @@ This module implements a reusable, CDC-safe AXI4-Stream FIFO with independent re
 
 ## Literature
 https://www.ti.com/lit/an/scaa042a/scaa042a.pdf
+
 https://developer.arm.com/documentation/ihi0051/latest/
